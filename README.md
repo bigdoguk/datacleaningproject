@@ -30,7 +30,7 @@ Then, extract a subset with only "mean()" and "std()" related columns (features)
 
 ### 2. merge the training data and test data, subject information, and activity information for both training and testing data. 
 
-Code is as below: 
+In implementation, training data and testing data have the same features (variable/column names), so they are merged vertically, and rbind() is applied for the merge. Code is as below: 
 
 data<-rbind(train,test)
 

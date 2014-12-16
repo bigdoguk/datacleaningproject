@@ -18,9 +18,9 @@ Then, extract a subset with only "mean()" and "std()" related columns (features)
 
 * subject information: this is about who perform the activity for each sample. 
 
-subject_test.txt, this corresponds to the testing data, and loaded as a 2947 by 1 data frame;
+    - subject_test.txt, this corresponds to the testing data, and loaded as a 2947 by 1 data frame;
 
-subject_train.txt, this correspond to the training data, and loaded 7352 by 1 data frame
+    - subject_train.txt, this correspond to the training data, and loaded 7352 by 1 data frame
 
 *  activity information: this is about the activity for each sample. 
 
@@ -28,7 +28,9 @@ subject_train.txt, this correspond to the training data, and loaded 7352 by 1 da
 
     - y_test.txt, this corresponds to the test data, and loaded as a 2947  by 1 data frame
 
-### 2. merge the training data and test data, subject information, and activity information for both training and testing data.
+### 2. merge the training data and test data, subject information, and activity information for both training and testing data. 
+
+Code is as below: 
 
 data<-rbind(train,test)
 
@@ -38,24 +40,26 @@ activity<-rbind(activityTrain,activityTest)
 
 ### 3. make a conversion, so that activity now uses descriptive activity names, but not "1", "2", "3", etc.
 
-For example, replace activity=1 as activity="WALKING" or activity="6" as activity="LAYING"
+For example, replace activity=1 as activity="WALKING" or activity="6" as activity="LAYING". Code is as below: 
 
 activityName<-activityLabel[,2][match(activity[,1],activityLabel[,1])]
 
 ### 4. add descriptive feature names to the merged data, by using the feature names listed in "feature.txt"
+
+Code is as below:
 
 names(data)<-feature[,2]
 
 
 ### 5. extract a subset with only the measurements on the mean and standard deviation for each measurement.
 
-In practice, this is done by extract features (columns) that contains "-mean()" or "-std()" in the feature names (column names)
+In practice, this is done by extract features (columns) that contains "-mean()" or "-std()" in the feature names (column names). Code is as below: 
 
 subset<-data[,grepl("-mean\\(\\)|-std\\(\\)", names(data))]
 
 ### 6. add the activity and subject information (as columns) to the extracted subset, and save the resulting subset
 
-So far, requirements 1,2,3,and4 listed in the assignment are done!
+So far, requirements 1,2,3,and 4 listed in the assignment are done! Code is as below:
 
 subset$activity<-activityName
 
@@ -65,7 +69,7 @@ write.table(subset,file="subset.txt",row.name=FALSE)
 
 ### 7. compute average of each variable ("mean", and "std" related features) for each activity and each subject.
 
-In implementation, splitting on two levels (subject and activity) are applied first, followed by the lapply function to compute column means. 
+In implementation, splitting on two levels (subject and activity) are applied first, followed by the lapply function to compute column means. Code is as below:
 
 s<-split(subset,list(subset$activity,subset$subject))
 
@@ -73,7 +77,7 @@ z<- lapply(s,function(x)colMeans(x[,1:66]))
 
 ### 8. organize the output "z" as a data frame ("result") and save the resulting data frame as "average.txt".
 
-This is the dataset generated from the requriment 5 in the assignment. 
+This is the dataset generated from the requriment 5 in the assignment. The code is as below:
  
 result<- data.frame(matrix(ncol = length(names(subset)), nrow = 0))
 
